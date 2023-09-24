@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AuthContext from "../context/AuthContext";
 
 const Register = () => {
+  const { registerUser } = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -16,13 +21,43 @@ const Register = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
+
+    if (
+      !credentials.email ||
+      !credentials.password ||
+      !credentials.confirmPassword
+    ) {
+      toast.error("please enter all the required fields!");
+      return;
+    }
+
+    if (credentials.password !== credentials.confirmPassword) {
+      toast.error("passwordName do not match!");
+      return;
+    }
+    const userData = { ...credentials, confirmPassword: undefined };
+    registerUser(userData);
   };
   return (
     <>
+      <ToastContainer autoClose={2000} />
       <h3>Create account </h3>
       <form onSubmit={handleSubmit}>
-        <div class="form-group">
-          <label for="emailInput" class="form-label mt-4">Email address</label>
+        <div className="form-group">
+          <label htmlFor="firstNameInput" class="form-label mt-4">Your Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            name="name"
+            value={credentials.name}
+            onChange={handleInputChange}
+            placeholder="Jane Doe"
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="emailInput" class="form-label mt-4">Email address</label>
           <input
             type="email"
             class="form-control"
@@ -31,12 +66,12 @@ const Register = () => {
             name="email"
             value={credentials.email}
             onChange={handleInputChange}
-            placeholder="Enter email"
+            placeholder="janedoe@example.com"
             required
           />
         </div>
-        <div class="form-group">
-          <label for="passwordlInput" class="form-label mt-4">Password</label>
+        <div className="form-group">
+          <label htmlFor="passwordlInput" class="form-label mt-4">Password</label>
           <input
             type="password"
             class="form-control"
@@ -48,8 +83,8 @@ const Register = () => {
             required
           />
         </div>
-        <div class="form-group">
-          <label for="passwordlInput" class="form-label mt-4">Confirm Password</label>
+        <div className="form-group">
+          <label htmlFor="passwordlInput" class="form-label mt-4">Confirm Password</label>
           <input
             type="password"
             class="form-control"

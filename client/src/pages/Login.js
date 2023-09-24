@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import AuthContext from "../context/AuthContext";
 
 const Login = () => {
+  const { loginUser } = useContext(AuthContext);
 
   const [credentials, setCredentials] = useState({
     email: "",
@@ -16,17 +20,25 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (!credentials.email || !credentials.password) {
+      toast.error("please enter all the required fields");
+      return;
+    }
+
+    loginUser(credentials);
   };
 
   return (
     <>
+      <ToastContainer autoClose={2000} />
       <h3>Login </h3>
       <form onSubmit={handleSubmit}>
-        <div class="form-group">
-          <label for="emailInput" class="form-label mt-4">Email address</label>
+        <div className="form-group">
+          <label htmlFor="emailInput" className="form-label mt-4">Email address</label>
           <input
             type="email"
-            class="form-control"
+            className="form-control"
             id="emailInput"
             aria-describedby="emailHelp"
             name="email"
