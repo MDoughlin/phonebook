@@ -1,9 +1,12 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import ToastContext from "../context/ToastContext";
 
 const Navbar = ({ title = "Contact List" }) => {
+  const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
+  const { toast } = useContext(ToastContext);
   return (
     <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
       <div className="container-fluid">
@@ -17,9 +20,16 @@ const Navbar = ({ title = "Contact List" }) => {
           <ul className="navbar-nav ms-auto">
             {user ?
               <>
+                <li className="nav-item">
+                  <Link to="/create">
+                    <a class="nav-link active">Create</a>
+                  </Link>
+                </li>
                 <li class="nav-item" onClick={() => {
                   setUser(null);
                   localStorage.clear();
+                  toast.success("Logged Out.");
+                  navigate("/login", { replace: true });
                 }}>
                   <button className="btn btn-danger">Logout</button>
                 </li>

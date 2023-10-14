@@ -3,11 +3,13 @@ const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
+const auth = require("../middlewares/auth");
+
 
 router.post("/register", async (req, res) => {
-  const { first_name, last_name, password, email } = req.body;
+  const { name, password, email } = req.body;
 
-  if (!first_name || !email || !password)
+  if (!name || !email || !password)
     return res
       .status(400)
       .json({ error: "Please enter required fields" });
@@ -34,7 +36,7 @@ router.post("/register", async (req, res) => {
       });
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    const newUser = new User({ first_name, last_name, email, password: hashedPassword });
+    const newUser = new User({ name, email, password: hashedPassword });
 
     // save the user.
     const result = await newUser.save();
@@ -73,11 +75,16 @@ router.post("/login", async (req, res) => {
 
     const payload = { _id: doesUserExist._id };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h", });
-    return res.status(200).json({ token });
+
+    const user = { ...doesUserExist._doc, password: undefined };
+    return res.status(200).json({ token, user });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: error.message });
   }
 });
 
+router.get("/me", auth, async (req, res) => {
+  return res.status(200).json({ ...req.user._doc });
+});
 module.exports = router;

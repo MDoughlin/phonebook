@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import AuthContext from "../context/AuthContext";
+import ToastContext from "../context/ToastContext";
 
 const Login = () => {
+  const { toast } = useContext(ToastContext);
   const { loginUser } = useContext(AuthContext);
 
   const [credentials, setCredentials] = useState({
@@ -31,7 +32,6 @@ const Login = () => {
 
   return (
     <>
-      <ToastContainer autoClose={2000} />
       <h3>Login </h3>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

@@ -1,9 +1,14 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
+import ToastContext from "./ToastContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
+  const { toast } = useContext(ToastContext);
+  const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
@@ -23,8 +28,9 @@ export const AuthContextProvider = ({ children }) => {
       const result = await res.json();
       if (!result.error) {
         setUser(result);
+        navigate("/", { replace: true });
       } else {
-        console.log(error);
+        navigate("/login", { replace: true });
       }
     } catch (error) {
       console.log(error);
@@ -46,11 +52,13 @@ export const AuthContextProvider = ({ children }) => {
       if (!result.error) {
         localStorage.setItem("token", result.token);
         setUser(result.user);
+        toast.success(`Logging in ${result.user.name}`);
+        navigate("/", { replace: true });
       } else {
-
+        toast.error(result.error);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -67,7 +75,8 @@ export const AuthContextProvider = ({ children }) => {
       });
       const result = await res.json();
       if (!result.error) {
-        console.log(result);
+        toast.success("User Registered Successfully!");
+        navigate("/login", { replace: true });
       } else {
         console.log(result);
       }
