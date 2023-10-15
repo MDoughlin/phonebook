@@ -25,6 +25,11 @@ const Navbar = ({ title = "Contact List" }) => {
                     <a class="nav-link active">Create</a>
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link to="/mycontacts">
+                    <a class="nav-link active">Contacts</a>
+                  </Link>
+                </li>
                 <li class="nav-item" onClick={() => {
                   setUser(null);
                   localStorage.clear();
