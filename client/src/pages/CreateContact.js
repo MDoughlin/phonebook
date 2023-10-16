@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AuthContext from "../context/AuthContext";
 import { useContext } from "react";
 import ToastContext from "../context/ToastContext";
@@ -16,7 +16,7 @@ const CreateContact = () => {
     phone: "",
   });
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
