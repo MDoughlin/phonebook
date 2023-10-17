@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Spinner from "../components/Spinner";
-import Card from "../components/Card";
+import Modal from 'react-bootstrap/Modal';
 
 
 const AllContacts = () => {
+  const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [contacts, setContacts] = useState([]);
+
 
   const fetchData = async () => {
     setLoading(true);
@@ -42,36 +44,44 @@ const AllContacts = () => {
         {loading ? <Spinner splash="Loading Contacts..." /> : (
 
           <table className="table table-hover">
-            {/* <thead>
+            <thead>
               <tr className="table-dark">
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
                 <th scope="col">Phone</th>
                 <th scope="col">Email</th>
               </tr>
-            </thead> */}
+            </thead>
             <tbody>
-              {contacts.map(contact => (
-                <Card
-                  key={contact.id}
-                  name={contact.first_name}
-                  phone={contact.phone}
-                  email={contact.email}
-                />
-                // <tr
-                //   key={contact._id}
-                //   onClick={() => {
-                //   }}>
-                //   <th scope="row">{contact.first_name}</th>
-                //   <th scope="row">{contact.last_name}</th>
-                //   <td>{contact.phone}</td>
-                //   <td>{contact.email}</td>
-                // </tr>
+              {contacts.map((contact) => (
+
+                <tr key={contact._id} onClick={() => setShowModal(true)}>
+                  <th scope="row">{contact.first_name}</th>
+                  <th scope="row">{contact.last_name}</th>
+                  <td>{contact.phone}</td>
+                  <td>{contact.email}</td>
+                </tr>
               ))}
             </tbody>
           </table>
         )}
       </div>
+
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal title</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>Modal body text goes here.</p>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <button>Close</button>
+        </Modal.Footer>
+      </Modal>
+
     </>
   );
 };
