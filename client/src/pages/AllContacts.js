@@ -6,6 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 const AllContacts = () => {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [modalData, setModalData] = useState({});
   const [contacts, setContacts] = useState([]);
 
 
@@ -55,7 +56,13 @@ const AllContacts = () => {
             <tbody>
               {contacts.map((contact) => (
 
-                <tr key={contact._id} onClick={() => setShowModal(true)}>
+                <tr
+                  key={contact._id}
+                  onClick={() => {
+                    setModalData({});
+                    setModalData(contact);
+                    setShowModal(true);
+                  }}>
                   <th scope="row">{contact.first_name}</th>
                   <th scope="row">{contact.last_name}</th>
                   <td>{contact.phone}</td>
@@ -67,18 +74,18 @@ const AllContacts = () => {
         )}
       </div>
 
-
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal title</Modal.Title>
+          <Modal.Title>{modalData.first_name}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
-          <p>Modal body text goes here.</p>
+          <p>Phone Number:{modalData.phone}</p>
+          <p>Email: {modalData.email}</p>
         </Modal.Body>
 
         <Modal.Footer>
-          <button>Close</button>
+          <button className="btn btn-warning" onClick={() => setShowModal(false)}>Close</button>
         </Modal.Footer>
       </Modal>
 
