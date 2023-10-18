@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Spinner from "../components/Spinner";
 import Modal from 'react-bootstrap/Modal';
 import ToastContext from '../context/ToastContext';
+import { Link } from "react-router-dom";
 
 const AllContacts = () => {
   const { toast } = useContext(ToastContext);
@@ -67,35 +68,41 @@ const AllContacts = () => {
         <h1>Your Contacts</h1>
         <hr className="my-4" />
 
-        {loading ? <Spinner splash="Loading Contacts..." /> : (
+        {loading ? (
+          <Spinner splash="Loading Contacts..." />
+        ) : (
+          <>
+            {contacts.length == 0 ? <h3>No Contacts Created </h3> : (
+              <table className="table table-hover">
+                <thead>
+                  <tr className="table-dark">
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Email</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {contacts.map((contact) => (
 
-          <table className="table table-hover">
-            <thead>
-              <tr className="table-dark">
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              {contacts.map((contact) => (
+                    <tr
+                      key={contact._id}
+                      onClick={() => {
+                        setModalData({});
+                        setModalData(contact);
+                        setShowModal(true);
+                      }}>
+                      <th scope="row">{contact.first_name}</th>
+                      <th scope="row">{contact.last_name}</th>
+                      <td>{contact.phone}</td>
+                      <td>{contact.email}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
 
-                <tr
-                  key={contact._id}
-                  onClick={() => {
-                    setModalData({});
-                    setModalData(contact);
-                    setShowModal(true);
-                  }}>
-                  <th scope="row">{contact.first_name}</th>
-                  <th scope="row">{contact.last_name}</th>
-                  <td>{contact.phone}</td>
-                  <td>{contact.email}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          </>
         )}
       </div>
 
@@ -110,7 +117,8 @@ const AllContacts = () => {
         </Modal.Body>
 
         <Modal.Footer>
-          <button className="btn btn-danger" onClick={() => deleteContact(modalData._id)}>Delete Contact</button>
+          <Link className="btn btn-info" to={`/edit/:${modalData._id}`} >Edit</Link>
+          <button className="btn btn-danger" onClick={() => deleteContact(modalData._id)}>Delete </button>
           <button className="btn btn-warning" onClick={() => setShowModal(false)}>Close</button>
         </Modal.Footer>
       </Modal>
