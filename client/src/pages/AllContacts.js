@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Spinner from "../components/Spinner";
 import Modal from 'react-bootstrap/Modal';
-
+import ToastContext from '../context/ToastContext';
 
 const AllContacts = () => {
+  const { toast } = useContext(ToastContext);
+
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modalData, setModalData] = useState({});
@@ -35,6 +37,29 @@ const AllContacts = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const deleteContact = async (id) => {
+    if (window.confirm("are you sure you want to delete this contact ?")) {
+      try {
+        const res = await fetch(`http://localhost:8000/api/delete/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        const result = await res.json();
+        if (!result.error) {
+          setContacts(result.myContacts);
+          toast.success("Deleted contact");
+          setShowModal(false);
+        } else {
+          toast.error(result.error);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
 
   return (
     <>
@@ -80,11 +105,12 @@ const AllContacts = () => {
         </Modal.Header>
 
         <Modal.Body>
-          <p>Phone Number:{modalData.phone}</p>
-          <p>Email: {modalData.email}</p>
+          <p><strong>Phone Number:</strong>{modalData.phone}</p>
+          <p><strong>Email:</strong> {modalData.email}</p>
         </Modal.Body>
 
         <Modal.Footer>
+          <button className="btn btn-danger" onClick={() => deleteContact(modalData._id)}>Delete Contact</button>
           <button className="btn btn-warning" onClick={() => setShowModal(false)}>Close</button>
         </Modal.Footer>
       </Modal>
