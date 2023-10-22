@@ -44,10 +44,10 @@ const Register = () => {
       <h3>Create account </h3>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="firstNameInput" class="form-label mt-4">Your Name</label>
+          <label htmlFor="firstNameInput" className="form-label mt-4">Your Name</label>
           <input
             type="text"
-            class="form-control"
+            className="form-control"
             id="name"
             name="name"
             value={credentials.name}
@@ -57,10 +57,10 @@ const Register = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="emailInput" class="form-label mt-4">Email address</label>
+          <label htmlFor="emailInput" className="form-label mt-4">Email address</label>
           <input
             type="email"
-            class="form-control"
+            className="form-control"
             id="emailInput"
             aria-describedby="emailHelp"
             name="email"
@@ -71,10 +71,10 @@ const Register = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="passwordlInput" class="form-label mt-4">Password</label>
+          <label htmlFor="passwordlInput" className="form-label mt-4">Password</label>
           <input
             type="password"
-            class="form-control"
+            className="form-control"
             id="passwordInput"
             name="password"
             value={credentials.password}
@@ -84,10 +84,10 @@ const Register = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="passwordlInput" class="form-label mt-4">Confirm Password</label>
+          <label htmlFor="passwordlInput" className="form-label mt-4">Confirm Password</label>
           <input
             type="password"
-            class="form-control"
+            className="form-control"
             id="confirmPassword"
             name="confirmPassword"
             value={credentials.confirmPassword}

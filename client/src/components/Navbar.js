@@ -22,15 +22,15 @@ const Navbar = ({ title = "Contact List" }) => {
               <>
                 <li className="nav-item">
                   <Link to="/create">
-                    <a class="nav-link active">Create</a>
+                    <a className="nav-link active">Create</a>
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/mycontacts">
-                    <a class="nav-link active">Contacts</a>
+                    <a className="nav-link active">Contacts</a>
                   </Link>
                 </li>
-                <li class="nav-item" onClick={() => {
+                <li className="nav-item" onClick={() => {
                   setUser(null);
                   localStorage.clear();
                   toast.success("Logged Out.");
@@ -40,7 +40,7 @@ const Navbar = ({ title = "Contact List" }) => {
                 </li>
               </> : <> <li className="nav-item">
                 <Link to="/login">
-                  <a class="nav-link active">Login</a>
+                  <a className="nav-link active">Login</a>
                 </Link>
               </li>
                 <li className="nav-item">

@@ -11,7 +11,7 @@ const AllContacts = () => {
   const [loading, setLoading] = useState(false);
   const [modalData, setModalData] = useState({});
   const [contacts, setContacts] = useState([]);
-
+  const [searchInput, setSearchInput] = useState("");
 
   const fetchData = async () => {
     setLoading(true);
@@ -62,44 +62,71 @@ const AllContacts = () => {
     }
   };
 
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+
+    const newSearchUser = contacts.filter((contact) =>
+      contact.first_name.toLowerCase().includes(searchInput.toLowerCase())
+    );
+    console.log(newSearchUser);
+    setContacts(newSearchUser);
+  };
+
   return (
     <>
       <div >
         <h1>Your Contacts</h1>
+        <a href="/mycontacts" className="btn btn-danger">Reload Contact</a>
         <hr className="my-4" />
 
         {loading ? (
           <Spinner splash="Loading Contacts..." />
         ) : (
           <>
-            {contacts.length == 0 ? <h3>No Contacts Created </h3> : (
-              <table className="table table-hover">
-                <thead>
-                  <tr className="table-dark">
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Email</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {contacts.map((contact) => (
+            {contacts.length === 0 ? <h3>No Contacts Created </h3> : (
+              <>
+                <form className="d-flex" onSubmit={handleSearchSubmit}>
+                  <input
+                    type="text"
+                    name="searchInput"
+                    id="searchInput"
+                    className="form-control my-2"
+                    placeholder="Search Contact"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                  />
+                  <button type="submit" className="btn btn-info mx-2">Search</button>
+                </form>
 
-                    <tr
-                      key={contact._id}
-                      onClick={() => {
-                        setModalData({});
-                        setModalData(contact);
-                        setShowModal(true);
-                      }}>
-                      <th scope="row">{contact.first_name}</th>
-                      <th scope="row">{contact.last_name}</th>
-                      <td>{contact.phone}</td>
-                      <td>{contact.email}</td>
+                <p className="text-muted">Total Contacts: {contacts.length}</p>
+                <table className="table table-hover">
+                  <thead>
+                    <tr className="table-dark">
+                      <th scope="col">First Name</th>
+                      <th scope="col">Last Name</th>
+                      <th scope="col">Phone</th>
+                      <th scope="col">Email</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {contacts.map((contact) => (
+
+                      <tr
+                        key={contact._id}
+                        onClick={() => {
+                          setModalData({});
+                          setModalData(contact);
+                          setShowModal(true);
+                        }}>
+                        <th scope="row">{contact.first_name}</th>
+                        <th scope="row">{contact.last_name}</th>
+                        <td>{contact.phone}</td>
+                        <td>{contact.email}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </>
             )}
 
           </>

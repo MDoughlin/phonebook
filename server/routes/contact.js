@@ -79,6 +79,7 @@ router.delete("/delete/:id", auth, async (req, res) => {
         .json({ error: "you can't delete other people contacts!" });
 
     const result = await Contact.deleteOne({ _id: id });
+
     const myContacts = await Contact.find({ postedBy: req.user._id }).populate(
       "postedBy",
       "-password"

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AuthContext from "../context/AuthContext";
 import { useContext } from "react";
@@ -81,10 +81,10 @@ const CreateContact = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="emailInput" class="form-label mt-4">Email address</label>
+          <label htmlFor="emailInput" className="form-label mt-4">Email address</label>
           <input
             type="email"
-            class="form-control"
+            className="form-control"
             id="emailInput"
             name="email"
             value={userDetails.email}
@@ -94,10 +94,10 @@ const CreateContact = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="phoneInput" class="form-label mt-4">Phone Number</label>
+          <label htmlFor="phoneInput" className="form-label mt-4">Phone Number</label>
           <input
             type="number"
-            class="form-control"
+            className="form-control"
             id="phoneInput"
             name="phone"
             value={userDetails.phone}
