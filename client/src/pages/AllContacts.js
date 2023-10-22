@@ -76,7 +76,7 @@ const AllContacts = () => {
     <>
       <div >
         <h1>Your Contacts</h1>
-        <a href="/mycontacts" className="btn btn-danger">Reload Contact</a>
+        {/* <a href="/mycontacts" className="btn btn-danger">Reload Contact</a> */}
         <hr className="my-4" />
 
         {loading ? (

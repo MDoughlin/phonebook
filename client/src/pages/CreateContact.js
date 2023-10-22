@@ -1,4 +1,4 @@
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AuthContext from "../context/AuthContext";
 import { useContext } from "react";
@@ -16,7 +16,7 @@ const CreateContact = () => {
     phone: "",
   });
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -37,12 +37,13 @@ const CreateContact = () => {
     });
     const result = await res.json();
     if (!result.error) {
-      toast.success(`Created[${userDetails.name}] created`);
+      toast.success(`Created[${userDetails.first_name}] created`);
 
       setUserDetails({ first_name: "", last_name: "", email: "", phone: "" });
     } else {
       toast.error(result.error);
     }
+    navigate("/mycontacts");
   };
 
   return (
