@@ -15,7 +15,7 @@ const Home = () => {
       <div className="jumbotron">
         <h1 className="display-4">Welcome {user ? user.name : null}</h1>
         <hr className="my-4" />
-        <a className="btn btn-info" href="#" role="button">Add Contact</a>
+        {/* <a className="btn btn-info" href="#" role="button">Add Contact</a> */}
       </div>
     </>
   );
